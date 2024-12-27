@@ -1,16 +1,15 @@
 const express = require("express");
-const adminAuth = require("./middlewares/auth");
+// const adminAuth = require("./middlewares/auth");
 const app = express();
-app.use("/admin", adminAuth);
+const connectDB = require("./config/database");
 
-app.get("/admin/getAllData", (req, res) => {
-  res.send({ message: "Data Fetched Successfully" });
-
-  app.get("/admin/deleteAllData", (req, res) => {
-    res.send({ message: "Data Deleted Successfully" });
+connectDB()
+  .then(() => {
+    console.log("Connected to MongoDB");
+    app.listen(8080, () => {
+      console.log("server is running on port 8080");
+    });
+  })
+  .catch(() => {
+    console.log("Error connecting to MongoDB");
   });
-});
-
-app.listen(8080, () => {
-  console.log("server is running on port 8080");
-});
